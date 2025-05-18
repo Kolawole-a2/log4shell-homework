@@ -1,0 +1,22 @@
+version: '3'
+services:
+  vulnerable-app:
+    build: ./app
+    ports:
+      - "8080:8080"
+    networks:
+      - log4shell-net
+
+  ldap-server:
+    image: python:3.9-slim
+    volumes:
+      - .:/ldap
+    working_dir: /ldap
+    command: ["python", "ldap_server.py"]
+    ports:
+      - "1389:1389"
+    networks:
+      - log4shell-net
+
+networks:
+  log4shell-net:
